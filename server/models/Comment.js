@@ -1,0 +1,44 @@
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+
+const Comment = sequelize.define('Comment', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  content: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+    validate: {
+      len: [1, 1000]
+    }
+  },
+  articleId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Articles',
+      key: 'id'
+    }
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Users',
+      key: 'id'
+    }
+  },
+  parentId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: 'Comments',
+      key: 'id'
+    }
+  }
+});
+
+module.exports = Comment;
+

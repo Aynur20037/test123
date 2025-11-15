@@ -1,0 +1,162 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  height: 70px;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  gap: 20px;
+}
+
+.navbar-brand h1 {
+  font-size: 24px;
+  color: #007bff;
+  font-weight: 700;
+}
+
+.navbar-search {
+  flex: 1;
+  max-width: 500px;
+  display: flex;
+  gap: 10px;
+}
+
+.navbar-search input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.navbar-search button {
+  padding: 10px 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-create,
+.btn-dashboard,
+.btn-admin {
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  border-radius: 6px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.3s;
+}
+
+.btn-create:hover,
+.btn-dashboard:hover,
+.btn-admin:hover {
+  background: #0056b3;
+}
+
+.btn-dashboard {
+  background: #28a745;
+}
+
+.btn-dashboard:hover {
+  background: #218838;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.navbar-user:hover {
+  background: #f0f0f0;
+}
+
+.navbar-user img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.navbar-user svg {
+  width: 24px;
+  height: 24px;
+}
+
+.btn-logout {
+  padding: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #666;
+  transition: color 0.3s;
+}
+
+.btn-logout:hover {
+  color: #dc3545;
+}
+
+.btn-login,
+.btn-register {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.btn-login {
+  color: #007bff;
+}
+
+.btn-register {
+  background: #007bff;
+  color: white;
+}
+
+.btn-register:hover {
+  background: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .navbar-search {
+    display: none;
+  }
+  
+  .navbar-brand h1 {
+    font-size: 20px;
+  }
+  
+  .btn-create span,
+  .btn-admin span {
+    display: none;
+  }
+}
+

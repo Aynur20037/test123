@@ -1,0 +1,169 @@
+.profile-page {
+  padding: 40px 0;
+}
+
+.profile-header {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-avatar svg {
+  width: 60px;
+  height: 60px;
+  color: #ccc;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-info h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.profile-bio {
+  color: #666;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 20px;
+  color: #666;
+  font-size: 14px;
+}
+
+.btn-subscribe {
+  padding: 12px 24px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 16px;
+}
+
+.btn-subscribe:hover {
+  background: #e0e0e0;
+}
+
+.btn-subscribe.subscribed {
+  background: #007bff;
+  color: white;
+}
+
+.profile-articles h2 {
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.article-card-small {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.article-card-small:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.article-cover-small {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.article-cover-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.article-content-small {
+  padding: 20px;
+}
+
+.article-content-small h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.article-content-small h3 a {
+  color: inherit;
+  transition: color 0.3s;
+}
+
+.article-content-small h3 a:hover {
+  color: #007bff;
+}
+
+.article-meta-small {
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.no-articles {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.no-profile {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .articles-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
