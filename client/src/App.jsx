@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/Navbar'
@@ -13,15 +14,46 @@ import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import AdminPanel from './pages/AdminPanel'
 import AuthorDashboard from './pages/AuthorDashboard'
-import SecurityDemo from './pages/SecurityDemo'
 import ProtectedRoute from './components/ProtectedRoute'
 import './App.css'
 
 function App() {
+  const [serverDown, setServerDown] = useState(false);
+
+  useEffect(() => {
+    const checkServer = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/admin/ping', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ip: '127.0.0.1' })
+        });
+        if (response.ok) {
+          setServerDown(false);
+        }
+      } catch (error) {
+        console.error('Server check failed:', error);
+        setServerDown(true);
+      }
+    };
+    checkServer();
+  }, []);
+
   return (
     <AuthProvider>
       <Router>
         <div className="App">
+          {serverDown && (
+            <div style={{
+              backgroundColor: '#dc3545',
+              color: 'white',
+              padding: '10px',
+              textAlign: 'center',
+              fontWeight: 'bold'
+            }}>
+              ⚠️ Сервер недоступен. Приложение может работать некорректно.
+            </div>
+          )}
           <Navbar />
           <main className="main-content">
             <Routes>
@@ -32,7 +64,6 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password/:token" element={<ResetPassword />} />
-              <Route path="/security-demo" element={<SecurityDemo />} />
               <Route
                 path="/create-article"
                 element={

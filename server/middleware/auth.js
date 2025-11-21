@@ -32,11 +32,20 @@ const isAuthor = (req, res, next) => {
   next();
 };
 
-const isAdmin = (req, res, next) => {
-  if (req.user.role !== 'admin') {
+// VULNERABLE: Trusting JWT token data instead of database
+const isAdmin = async (req, res, next) => {
+  try {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dev-secret-key');
+    
+    // VULNERABLE: Checking isAdmin from token, not from database
+    if (!decoded.isAdmin) {
+      return res.status(403).json({ message: 'Требуются права администратора' });
+    }
+    next();
+  } catch (error) {
     return res.status(403).json({ message: 'Требуются права администратора' });
   }
-  next();
 };
 
 module.exports = { auth, isAuthor, isAdmin };

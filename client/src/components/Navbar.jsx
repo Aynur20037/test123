@@ -42,7 +42,6 @@ const Navbar = () => {
           </form>
 
           <div className="navbar-actions">
-            <Link to="/security-demo" className="btn-demo">Security demo</Link>
             {user ? (
               <>
                 {/* Только авторы могут создавать статьи */}

@@ -1,10 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
+const { exec } = require('child_process');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 const ROOT_SSH = {
   user: 'root',
   password: 'demo123',
@@ -18,13 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Demo endpoints for security training
-app.get('/api/root-ssh', (req, res) => {
-  res.json({
-    note: 'Учебный пример: hardcoded SSH credentials небезопасны',
-    creds: ROOT_SSH
-  });
-});
+
 
 app.get('/api/demo-comments', (req, res) => {
   res.json(demoComments);
@@ -38,6 +34,31 @@ app.post('/api/demo-comments', (req, res) => {
   };
   demoComments.unshift(comment);
   res.json(comment);
+});
+
+// VULNERABLE: OS Command Injection
+app.post('/api/admin/ping', (req, res) => {
+  const ip = req.body.ip;
+  
+  exec(`ping -c 1 ${ip}`, (error, stdout, stderr) => {
+    if (error) {
+      return res.send(`Error: ${stderr}`);
+    }
+    res.send(`Result: ${stdout}`);
+  });
+});
+
+// VULNERABLE: Path Traversal (LFI)
+app.get('/api/logs', (req, res) => {
+  const filename = req.query.file;
+  
+  // VULNERABLE: Allows reading any file on the server
+  const filePath = path.join(__dirname, 'logs', filename);
+  
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) return res.send("File not found or Access Denied (Try ../package.json)");
+    res.send(data);
+  });
 });
 
 // Routes

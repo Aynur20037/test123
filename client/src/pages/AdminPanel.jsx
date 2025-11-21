@@ -6,6 +6,8 @@ import './AdminPanel.css'
 const AdminPanel = () => {
   const [users, setUsers] = useState([])
   const [categories, setCategories] = useState([])
+  const [logs, setLogs] = useState('')
+  const [logFile, setLogFile] = useState('access.log')
   const [activeTab, setActiveTab] = useState('users')
   const [newCategory, setNewCategory] = useState({ name: '', description: '' })
   const [loading, setLoading] = useState(true)
@@ -13,10 +15,12 @@ const AdminPanel = () => {
   useEffect(() => {
     if (activeTab === 'users') {
       fetchUsers()
-    } else {
+    } else if (activeTab === 'categories') {
       fetchCategories()
+    } else if (activeTab === 'logs') {
+      fetchLogs()
     }
-  }, [activeTab])
+  }, [activeTab, logFile])
 
   const fetchUsers = async () => {
     try {
@@ -37,6 +41,19 @@ const AdminPanel = () => {
       setCategories(response.data)
     } catch (error) {
       toast.error('Ошибка загрузки категорий')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const fetchLogs = async () => {
+    try {
+      setLoading(true)
+      const response = await axios.get(`/api/logs?file=${logFile}`)
+      setLogs(response.data)
+    } catch (error) {
+      toast.error('Ошибка загрузки логов')
+      setLogs('Ошибка загрузки файла')
     } finally {
       setLoading(false)
     }
@@ -96,6 +113,12 @@ const AdminPanel = () => {
             className={activeTab === 'categories' ? 'active' : ''}
           >
             Категории
+          </button>
+          <button
+            onClick={() => setActiveTab('logs')}
+            className={activeTab === 'logs' ? 'active' : ''}
+          >
+            Логи сервера
           </button>
         </div>
 
@@ -180,6 +203,26 @@ const AdminPanel = () => {
                   </button>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'logs' && (
+          <div className="admin-section">
+            <h2>Логи сервера</h2>
+            <div className="form-group">
+              <label>Выберите файл логов:</label>
+              <select 
+                value={logFile} 
+                onChange={(e) => setLogFile(e.target.value)}
+                className="role-select"
+              >
+                <option value="access.log">access.log</option>
+                <option value="error.log">error.log</option>
+              </select>
+            </div>
+            <div className="logs-container">
+              <pre>{logs}</pre>
             </div>
           </div>
         )}

@@ -6,8 +6,8 @@ const { body, validationResult } = require('express-validator');
 const { User } = require('../models');
 const { sendPasswordResetEmail } = require('../utils/email');
 
-const generateToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET || 'dev-secret-key', {
+const generateToken = (userId, isAdmin = false) => {
+  return jwt.sign({ userId, isAdmin }, process.env.JWT_SECRET || 'dev-secret-key', {
     expiresIn: '7d'
   });
 };
@@ -47,7 +47,8 @@ router.post('/register', [
       role: userRole
     });
 
-    const token = generateToken(user.id);
+    const isAdmin = user.role === 'admin';
+    const token = generateToken(user.id, isAdmin);
 
     res.status(201).json({
       token,
@@ -87,7 +88,8 @@ router.post('/login', [
       return res.status(401).json({ message: 'Неверный email или пароль' });
     }
 
-    const token = generateToken(user.id);
+    const isAdmin = user.role === 'admin';
+    const token = generateToken(user.id, isAdmin);
 
     res.json({
       token,
